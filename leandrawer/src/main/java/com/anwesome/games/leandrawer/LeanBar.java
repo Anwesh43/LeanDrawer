@@ -32,10 +32,10 @@ public class LeanBar {
             Point size = DimensionsUtil.getDimensions(activity);
             leanDrawer = new LeanDrawer(activity);
             leanHamburgIcon = LeanHamburgIcon.getInstance(size.x/10,size.y/20,Math.min(size.x,size.y)/12);
-            leanDrawerAnimationController.initAnimators(leanDrawer,size.x/2);
+            leanDrawerAnimationController.initAnimators(leanDrawer,(2*size.x)/3);
             activity.addContentView(leanBarView,new ViewGroup.LayoutParams(size.x,size.y/10));
-            activity.addContentView(leanDrawer,new ViewGroup.LayoutParams(size.x/2,size.y));
-            leanDrawer.setX(-size.x/2);
+            activity.addContentView(leanDrawer,new ViewGroup.LayoutParams((2*size.x)/3,size.y));
+            leanDrawer.setX(-(2*size.x)/3);
             leanDrawer.setY(size.y/10);
         }
         leanBarView.setX(0);
