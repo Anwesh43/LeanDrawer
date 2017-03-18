@@ -16,6 +16,7 @@ import android.view.ViewGroup;
  */
 public class LeanBar {
     private Activity activity;
+    private LeanHamburgIcon leanHamburgIcon;
     private LeanBarView leanBarView;
     private LeanBar(Activity activity) {
         this.activity = activity;
@@ -27,6 +28,7 @@ public class LeanBar {
         if(leanBarView==null) {
             leanBarView = new LeanBarView(activity);
             Point size = DimensionsUtil.getDimensions(activity);
+            leanHamburgIcon = LeanHamburgIcon.getInstance(size.x/10,size.y/20,size.x/10);
             activity.addContentView(leanBarView,new ViewGroup.LayoutParams(size.x,size.y/10));
         }
         leanBarView.setX(0);
@@ -41,8 +43,13 @@ public class LeanBar {
             int w = canvas.getWidth(),h = canvas.getHeight();
             paint.setColor(Color.parseColor("#3F51B5"));
             canvas.drawRect(new RectF(0,0,w,h),paint);
+            leanHamburgIcon.draw(canvas,paint);
         }
         public boolean onTouchEvent(MotionEvent event) {
+            float x = event.getX(),y = event.getY();
+            if(event.getAction() == MotionEvent.ACTION_DOWN && leanHamburgIcon.handleTap(x,y)) {
+                
+            }
             return true;
         }
     }
