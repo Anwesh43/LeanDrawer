@@ -18,6 +18,8 @@ public class LeanBar {
     private Activity activity;
     private LeanHamburgIcon leanHamburgIcon;
     private LeanBarView leanBarView;
+    private LeanDrawer leanDrawer;
+    private LeanDrawerAnimationController leanDrawerAnimationController = new LeanDrawerAnimationController();
     private LeanBar(Activity activity) {
         this.activity = activity;
     }
@@ -28,8 +30,13 @@ public class LeanBar {
         if(leanBarView==null) {
             leanBarView = new LeanBarView(activity);
             Point size = DimensionsUtil.getDimensions(activity);
+            leanDrawer = new LeanDrawer(activity);
             leanHamburgIcon = LeanHamburgIcon.getInstance(size.x/10,size.y/20,Math.min(size.x,size.y)/12);
+            leanDrawerAnimationController.initAnimators(leanDrawer,size.x/2);
             activity.addContentView(leanBarView,new ViewGroup.LayoutParams(size.x,size.y/10));
+            activity.addContentView(leanDrawer,new ViewGroup.LayoutParams(size.x/2,size.y));
+            leanDrawer.setX(-size.x/2);
+            leanDrawer.setY(size.y/10);
         }
         leanBarView.setX(0);
         leanBarView.setY(0);
