@@ -14,8 +14,8 @@ public class LeanDrawerAnimationController {
         closeAnimator = ValueAnimator.ofFloat(0,-w);
         openAnimator.addUpdateListener(new AnimationController());
         closeAnimator.addUpdateListener(new AnimationController());
-        openAnimator.setDuration(100);
-        closeAnimator.setDuration(100);
+        openAnimator.setDuration(700);
+        closeAnimator.setDuration(700);
     }
     public void open() {
         openAnimator.start();
@@ -25,7 +25,7 @@ public class LeanDrawerAnimationController {
     }
     private class AnimationController implements ValueAnimator.AnimatorUpdateListener {
         public void onAnimationUpdate(ValueAnimator valueAnimator) {
-            leanDrawer.setX(valueAnimator.getAnimatedFraction());
+            leanDrawer.setX((float)valueAnimator.getAnimatedValue());
         }
 
     }

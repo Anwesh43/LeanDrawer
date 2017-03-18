@@ -56,6 +56,12 @@ public class LeanBar {
             float x = event.getX(),y = event.getY();
             if(event.getAction() == MotionEvent.ACTION_DOWN) {
                 if(leanHamburgIcon.handleTap(x,y)) {
+                    if(leanHamburgIcon.isOpened()) {
+                        leanDrawerAnimationController.open();
+                    }
+                    else {
+                        leanDrawerAnimationController.close();
+                    }
                     postInvalidate();
                 }
             }

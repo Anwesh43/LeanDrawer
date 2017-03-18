@@ -46,6 +46,9 @@ public class LeanHamburgIcon {
             canvas.restore();
         }
     }
+    public boolean isOpened() {
+        return opened;
+    }
     public boolean handleTap(float x,float y) {
         boolean condition = (x>=this.x-size/2 && x<=this.x+size/2 && y>=this.y-size/2 && y<=this.y+size/2);
         opened = condition?!opened:opened;

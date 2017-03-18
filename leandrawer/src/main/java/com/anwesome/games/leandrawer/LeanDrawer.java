@@ -41,9 +41,11 @@ public class LeanDrawer extends View{
             w = canvas.getWidth();
             h = canvas.getHeight();
             paint.setTextSize(w/10);
-            profileBitmap = Bitmap.createScaledBitmap(profileBitmap,Math.min(w,h)/8,Math.min(w,h)/8,true);
+            profileBitmap = Bitmap.createScaledBitmap(profileBitmap,Math.min(w,h)/3,Math.min(w,h)/3,true);
         }
-        float headerHeight = canvas.getHeight()/10+(profileBitmap.getHeight()*11)/10+(paint.getTextSize()*3)/2;
+        paint.setColor(Color.parseColor("#E0E0E0"));
+        canvas.drawRect(new RectF(0,0,w,h),paint);
+        float headerHeight = canvas.getHeight()/10+(profileBitmap.getHeight()*12)/10+(paint.getTextSize()*3)/2;
         paint.setColor(headerColor);
         canvas.drawRect(new RectF(0,0,w,headerHeight),paint);
         drawProfile(canvas,paint);
@@ -53,13 +55,15 @@ public class LeanDrawer extends View{
         canvas.save();
         canvas.translate(canvas.getWidth()/2,canvas.getHeight()/10+profileBitmap.getHeight()/2);
         Path path = new Path();
-        path.addCircle(-profileBitmap.getWidth()/2,-profileBitmap.getHeight()/2,profileBitmap.getWidth()/2, Path.Direction.CCW);
+        paint.setColor(Color.parseColor("#E0E0E0"));
+        path.addCircle(0,0,profileBitmap.getWidth()/2, Path.Direction.CCW);
         canvas.clipPath(path);
+        canvas.drawPath(path,paint);
         canvas.drawBitmap(profileBitmap,-profileBitmap.getWidth()/2,-profileBitmap.getHeight()/2,paint);
         canvas.restore();
         setProfileTextSize();
         paint.setColor(Color.WHITE);
-        canvas.drawText(profileText,w/2-paint.measureText(profileText)/2,canvas.getHeight()/10+(profileBitmap.getHeight()*11)/10,paint);
+        canvas.drawText(profileText,w/2-paint.measureText(profileText)/2,canvas.getHeight()/10+(profileBitmap.getHeight()*13)/10,paint);
     }
     private void setProfileTextSize() {
         if(paint.measureText(profileText) > w) {
