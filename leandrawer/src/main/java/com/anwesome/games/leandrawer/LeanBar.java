@@ -10,6 +10,7 @@ import android.graphics.RectF;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 
 /**
  * Created by anweshmishra on 19/03/17.
@@ -28,7 +29,7 @@ public class LeanBar {
         if(leanBarView==null) {
             leanBarView = new LeanBarView(activity);
             Point size = DimensionsUtil.getDimensions(activity);
-            leanHamburgIcon = LeanHamburgIcon.getInstance(size.x/10,size.y/20,size.x/10);
+            leanHamburgIcon = LeanHamburgIcon.getInstance(size.x/10,size.y/20,Math.min(size.x,size.y)/12);
             activity.addContentView(leanBarView,new ViewGroup.LayoutParams(size.x,size.y/10));
         }
         leanBarView.setX(0);
@@ -47,8 +48,10 @@ public class LeanBar {
         }
         public boolean onTouchEvent(MotionEvent event) {
             float x = event.getX(),y = event.getY();
-            if(event.getAction() == MotionEvent.ACTION_DOWN && leanHamburgIcon.handleTap(x,y)) {
-                
+            if(event.getAction() == MotionEvent.ACTION_DOWN) {
+                if(leanHamburgIcon.handleTap(x,y)) {
+                    postInvalidate();
+                }
             }
             return true;
         }
