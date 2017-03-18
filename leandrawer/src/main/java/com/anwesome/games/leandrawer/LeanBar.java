@@ -10,7 +10,6 @@ import android.graphics.RectF;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
 
 /**
  * Created by anweshmishra on 19/03/17.
