@@ -11,7 +11,7 @@ import android.graphics.Paint;
 public class DrawerMenu {
     private Bitmap bitmap;
     private String text;
-    private float x,y,w,h,textW;
+    private float x,y,w,h,textW,size;
     public interface OnClickListener {
         void onClick();
     }
@@ -27,7 +27,7 @@ public class DrawerMenu {
         this.h = h;
     }
     public void draw(Canvas canvas, Paint paint) {
-        float size = w;
+        size = w;
         canvas.save();
         if(bitmap!=null) {
             bitmap = Bitmap.createScaledBitmap(bitmap,(int)size/8,(int)size/8,true);
@@ -47,7 +47,7 @@ public class DrawerMenu {
             setTextSize(paint,fullSize);
         }
     }
-    public boolean handleTap(float x,float y,float size) {
+    public boolean handleTap(float x,float y) {
         boolean condition = x>=this.x+size/3 && x<=this.x+size/3+textW && y>=this.y+size/8 && y<=this.y+size/4;
         if(condition && onClickListener!=null) {
             onClickListener.onClick();

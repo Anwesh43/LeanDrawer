@@ -1,15 +1,9 @@
 package com.anwesome.games.leandrawer;
 
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Canvas;
-import android.graphics.Color;
-import android.graphics.Paint;
-import android.graphics.Path;
-import android.graphics.RectF;
-import android.view.MotionEvent;
-import android.view.View;
+import android.graphics.*;
+import android.view.*;
+import java.util.*;
 
 /**
  * Created by anweshmishra on 19/03/17.
@@ -20,6 +14,8 @@ public class LeanDrawer extends View{
     private float prevX;
     private OnToggleListener onToggleListener;
     private boolean isDown = false;
+    private LeanDrawer leanDrawer;
+    private List<DrawerMenu> drawerMenuList = new ArrayList<>();
     public void setHeaderColor(int headerColor) {
         this.headerColor = headerColor;
     }
@@ -42,6 +38,9 @@ public class LeanDrawer extends View{
     public void setOnToggleListener(OnToggleListener onToggleListener) {
         this.onToggleListener = onToggleListener;
     }
+    public void setDrawerMenus(List<DrawerMenu> drawerMenus) {
+        this.drawerMenuList = drawerMenus;
+    }
     public void onDraw(Canvas canvas) {
         if(time == 0) {
             w = canvas.getWidth();
@@ -55,6 +54,9 @@ public class LeanDrawer extends View{
         paint.setColor(headerColor);
         canvas.drawRect(new RectF(0,0,w,headerHeight),paint);
         drawProfile(canvas,paint);
+        for(DrawerMenu drawerMenu:drawerMenuList) {
+            drawerMenu.draw(canvas,paint);
+        }
         time++;
     }
     public boolean isOpened() {
@@ -87,7 +89,14 @@ public class LeanDrawer extends View{
         float x = event.getX();
         switch(event.getAction()) {
             case MotionEvent.ACTION_DOWN:
-                if(!isDown) {
+                boolean drawerMenuTapped = false;
+                for(DrawerMenu drawerMenu:drawerMenuList) {
+                    drawerMenuTapped = drawerMenu.handleTap(x,event.getY());
+                    if(drawerMenuTapped) {
+                        break;
+                    }
+                }
+                if(!isDown && !drawerMenuTapped) {
                     isDown = true;
                     prevX = x;
                 }
