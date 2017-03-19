@@ -11,7 +11,7 @@ import java.util.*;
 public class LeanDrawer extends View{
     private String profileText = "Profile Name";
     private Bitmap profileBitmap;
-    private float prevX;
+    private float prevX,headerHeight;
     private OnToggleListener onToggleListener;
     private boolean isDown = false;
     private LeanDrawer leanDrawer;
@@ -50,12 +50,15 @@ public class LeanDrawer extends View{
         }
         paint.setColor(Color.parseColor("#E0E0E0"));
         canvas.drawRect(new RectF(0,0,w,h),paint);
-        float headerHeight = canvas.getHeight()/10+(profileBitmap.getHeight()*12)/10+(paint.getTextSize()*3)/2;
+        headerHeight = canvas.getHeight()/10+(profileBitmap.getHeight()*12)/10+(paint.getTextSize()*3)/2;
         paint.setColor(headerColor);
         canvas.drawRect(new RectF(0,0,w,headerHeight),paint);
         drawProfile(canvas,paint);
         for(DrawerMenu drawerMenu:drawerMenuList) {
+            canvas.save();
+            canvas.translate(0,headerHeight+h/20);
             drawerMenu.draw(canvas,paint);
+            canvas.restore();
         }
         time++;
     }
@@ -91,7 +94,7 @@ public class LeanDrawer extends View{
             case MotionEvent.ACTION_DOWN:
                 boolean drawerMenuTapped = false;
                 for(DrawerMenu drawerMenu:drawerMenuList) {
-                    drawerMenuTapped = drawerMenu.handleTap(x,event.getY());
+                    drawerMenuTapped = drawerMenu.handleTap(x,event.getY()-headerHeight-h/20);
                     if(drawerMenuTapped) {
                         break;
                     }
