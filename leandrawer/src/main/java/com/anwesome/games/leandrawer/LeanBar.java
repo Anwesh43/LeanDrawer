@@ -20,6 +20,7 @@ public class LeanBar {
     private LeanHamburgIcon leanHamburgIcon;
     private LeanBarView leanBarView;
     private LeanDrawer leanDrawer;
+    private Overlay overlay;
     private List<DrawerMenu> drawerMenus;
     private LeanDrawerAnimationController leanDrawerAnimationController = new LeanDrawerAnimationController();
     private LeanBar(Activity activity) {
@@ -36,10 +37,12 @@ public class LeanBar {
             leanBarView = new LeanBarView(activity);
             Point size = DimensionsUtil.getDimensions(activity);
             setDimensionOfDrawerMenus(3*size.x/8);
+            overlay = new Overlay(activity);
             leanDrawer = new LeanDrawer(activity);
             leanDrawer.setDrawerMenus(drawerMenus);
             leanHamburgIcon = LeanHamburgIcon.getInstance(size.x/10,size.y/20,Math.min(size.x,size.y)/12);
             leanDrawerAnimationController.initAnimators(leanDrawer,(3*size.x)/4);
+            activity.addContentView(overlay,new ViewGroup.LayoutParams(size.x,size.y));
             activity.addContentView(leanBarView,new ViewGroup.LayoutParams(size.x,size.y/10));
             activity.addContentView(leanDrawer,new ViewGroup.LayoutParams(3*size.x/4, size.y));
             leanDrawer.setX(-(3*size.x)/4);
@@ -49,6 +52,7 @@ public class LeanBar {
                 public void onClose() {
                     leanHamburgIcon.setOpened(false);
                     leanBarView.invalidate();
+                    overlay.setVisibility(View.INVISIBLE);
                 }
 
                 @Override
@@ -57,6 +61,7 @@ public class LeanBar {
                     leanBarView.invalidate();
                 }
             });
+            overlay.setVisibility(View.INVISIBLE);
         }
         leanBarView.setX(0);
         leanBarView.setY(0);
@@ -85,9 +90,11 @@ public class LeanBar {
                 if(leanHamburgIcon.handleTap(x,y)) {
                     if(leanHamburgIcon.isOpened()) {
                         leanDrawerAnimationController.open();
+                        overlay.setVisibility(VISIBLE);
                     }
                     else {
                         leanDrawerAnimationController.close();
+                        overlay.setVisibility(INVISIBLE);
                     }
                     postInvalidate();
                 }
