@@ -121,7 +121,7 @@ public class LeanDrawer extends View{
             case MotionEvent.ACTION_UP:
                 if(isDown) {
                     isDown = false;
-                    if(getX()<-((3*w)/4)) {
+                    if(getX()<-((w)/2)) {
                         setX(-w);
                         if(onToggleListener!=null) {
                             onToggleListener.onClose();

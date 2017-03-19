@@ -35,14 +35,14 @@ public class LeanBar {
         if(leanBarView==null) {
             leanBarView = new LeanBarView(activity);
             Point size = DimensionsUtil.getDimensions(activity);
-            setDimensionOfDrawerMenus(size.x/3);
+            setDimensionOfDrawerMenus(3*size.x/8);
             leanDrawer = new LeanDrawer(activity);
             leanDrawer.setDrawerMenus(drawerMenus);
             leanHamburgIcon = LeanHamburgIcon.getInstance(size.x/10,size.y/20,Math.min(size.x,size.y)/12);
-            leanDrawerAnimationController.initAnimators(leanDrawer,(2*size.x)/3);
+            leanDrawerAnimationController.initAnimators(leanDrawer,(3*size.x)/4);
             activity.addContentView(leanBarView,new ViewGroup.LayoutParams(size.x,size.y/10));
-            activity.addContentView(leanDrawer,new ViewGroup.LayoutParams(2*size.x/3, size.y));
-            leanDrawer.setX(-(2*size.x)/3);
+            activity.addContentView(leanDrawer,new ViewGroup.LayoutParams(3*size.x/4, size.y));
+            leanDrawer.setX(-(3*size.x)/4);
             leanDrawer.setY(size.y/10);
             leanDrawer.setOnToggleListener(new LeanDrawer.OnToggleListener() {
                 @Override

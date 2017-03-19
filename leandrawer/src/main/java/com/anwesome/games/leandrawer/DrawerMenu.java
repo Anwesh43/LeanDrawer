@@ -42,7 +42,7 @@ public class DrawerMenu {
             paint.setColor(Color.BLACK);
             paint.setTextSize(size/8);
             setTextSize(paint,size);
-            canvas.drawText(text,size/3,size/4-paint.getTextSize()/3,paint);
+            canvas.drawText(text,size/3,size/4-paint.getTextSize()/4,paint);
             textW = paint.measureText(text);
         }
         canvas.restore();
