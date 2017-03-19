@@ -8,6 +8,7 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.RectF;
+import android.view.MotionEvent;
 import android.view.View;
 
 /**
@@ -16,7 +17,9 @@ import android.view.View;
 public class LeanDrawer extends View{
     private String profileText = "Profile Name";
     private Bitmap profileBitmap;
-
+    private float prevX;
+    private OnToggleListener onToggleListener;
+    private boolean isDown = false;
     public void setHeaderColor(int headerColor) {
         this.headerColor = headerColor;
     }
@@ -36,6 +39,9 @@ public class LeanDrawer extends View{
         super(context);
         profileBitmap = BitmapFactory.decodeResource(getResources(),R.drawable.profile_avt);
     }
+    public void setOnToggleListener(OnToggleListener onToggleListener) {
+        this.onToggleListener = onToggleListener;
+    }
     public void onDraw(Canvas canvas) {
         if(time == 0) {
             w = canvas.getWidth();
@@ -50,6 +56,12 @@ public class LeanDrawer extends View{
         canvas.drawRect(new RectF(0,0,w,headerHeight),paint);
         drawProfile(canvas,paint);
         time++;
+    }
+    public boolean isOpened() {
+        return (getX()>=0);
+    }
+    public boolean isClosed() {
+        return (getX()<=-w);
     }
     private void drawProfile(Canvas canvas,Paint paint) {
         canvas.save();
@@ -70,5 +82,52 @@ public class LeanDrawer extends View{
             paint.setStrokeWidth(paint.getStrokeWidth()*9/10);
             setProfileTextSize();
         }
+    }
+    public boolean onTouchEvent(MotionEvent event) {
+        float x = event.getX();
+        switch(event.getAction()) {
+            case MotionEvent.ACTION_DOWN:
+                if(!isDown) {
+                    isDown = true;
+                    prevX = x;
+                }
+                break;
+            case MotionEvent.ACTION_MOVE:
+                if(isDown) {
+                    float diff = x-prevX;
+                    if((diff <0 && getX()>-(w)) || (diff>0 && getX()<0)) {
+                        setX(getX()+diff);
+                        if(getX()>0) {
+                            setX(0);
+                        }
+                        if(getX()<(-w)) {
+                            setX(-w);
+                        }
+                    }
+                }
+                break;
+            case MotionEvent.ACTION_UP:
+                if(isDown) {
+                    isDown = false;
+                    if(getX()<-((3*w)/4)) {
+                        setX(-w);
+                        if(onToggleListener!=null) {
+                            onToggleListener.onClose();
+                        }
+                    }
+                    else {
+                        setX(0);
+                        if(onToggleListener!=null) {
+                            onToggleListener.onOpen();
+                        }
+                    }
+                }
+                break;
+        }
+        return true;
+    }
+    public interface OnToggleListener {
+        void onClose();
+        void onOpen();
     }
 }

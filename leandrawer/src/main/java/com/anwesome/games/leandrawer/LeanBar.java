@@ -37,6 +37,19 @@ public class LeanBar {
             activity.addContentView(leanDrawer,new ViewGroup.LayoutParams((2*size.x)/3,size.y));
             leanDrawer.setX(-(2*size.x)/3);
             leanDrawer.setY(size.y/10);
+            leanDrawer.setOnToggleListener(new LeanDrawer.OnToggleListener() {
+                @Override
+                public void onClose() {
+                    leanHamburgIcon.setOpened(false);
+                    leanBarView.invalidate();
+                }
+
+                @Override
+                public void onOpen() {
+                    leanHamburgIcon.setOpened(true);
+                    leanBarView.invalidate();
+                }
+            });
         }
         leanBarView.setX(0);
         leanBarView.setY(0);

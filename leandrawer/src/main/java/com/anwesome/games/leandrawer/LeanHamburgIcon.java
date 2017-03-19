@@ -46,6 +46,9 @@ public class LeanHamburgIcon {
             canvas.restore();
         }
     }
+    public void setOpened(boolean opened) {
+        this.opened = opened;
+    }
     public boolean isOpened() {
         return opened;
     }
